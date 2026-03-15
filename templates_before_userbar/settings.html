@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel max-w">
+  <h2>Impostazioni Dellicar</h2>
+  <form method="post" class="form-grid">
+    <div><label>Ragione sociale</label><input name="company_name" value="{{ settings.company_name }}"></div>
+    <div><label>Telefono</label><input name="phone" value="{{ settings.phone }}"></div>
+    <div><label>Indirizzo</label><input name="address" value="{{ settings.address }}"></div>
+    <div><label>Email</label><input name="email" value="{{ settings.email }}"></div>
+    <div><label>Sito web</label><input name="website" value="{{ settings.website }}"></div>
+    <div><label>P.IVA</label><input name="vat" value="{{ settings.vat }}"></div>
+    <div class="full"><button class="btn" type="submit">Salva impostazioni</button></div>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,35 @@
+:root{
+  --bg:#0f1115;
+  --panel:#171a21;
+  --panel2:#1f2430;
+  --text:#eef1f5;
+  --muted:#b9c0cc;
+  --gold:#caa85a;
+  --line:#2f3646;
+  --danger:#d64545;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0d0f14,#151923);color:var(--text)}
+a{color:inherit;text-decoration:none}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(15,17,21,.95);backdrop-filter:blur(8px);z-index:10}
+.brand-wrap{display:flex;align-items:center;gap:14px}.brand-wrap h1{margin:0;font-size:22px}.brand-wrap p{margin:4px 0 0;color:var(--muted)}
+.logo-box{width:46px;height:46px;border:2px solid var(--gold);border-radius:10px;display:grid;place-items:center;color:var(--gold);font-weight:800}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 79px)}
+.sidebar{padding:18px;border-right:1px solid var(--line);background:rgba(10,12,16,.35);display:flex;flex-direction:column;gap:8px}
+.sidebar a{padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid transparent}.sidebar a:hover{border-color:var(--line);background:#171a21}
+.content{padding:20px}
+.cards,.grid-2,.form-grid,.contract-grid,.damage-layout{display:grid;gap:16px}.cards{grid-template-columns:repeat(4,1fr)}.grid-2,.contract-grid{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr 1fr}
+.card,.panel,.subpanel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px;padding:16px}
+.card h3{margin:0 0 10px;color:var(--muted);font-size:14px}.metric{font-size:30px;font-weight:800}
+.panel h2{margin:0 0 12px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--gold);color:#141414;font-weight:700;border:none;cursor:pointer}.btn.secondary{background:#2a3140;color:var(--text);border:1px solid #3a4354}.btn.danger{background:var(--danger);color:white}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#0f131b;color:var(--text);font:inherit}textarea{min-height:100px;resize:vertical}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.full{grid-column:1 / -1}.mt-20{margin-top:20px}.small{font-size:12px}.muted{color:var(--muted)}.max-w{max-width:900px}
+.status{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700}.Disponibile{background:rgba(31,157,85,.12);color:#7ce7aa}.Noleggiata{background:rgba(217,130,43,.12);color:#f2b66d}.Prenotata{background:rgba(90,140,255,.12);color:#9bb7ff}.Manutenzione{background:rgba(214,69,69,.12);color:#ff9b9b}
+table{width:100%;border-collapse:collapse}th,td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{text-align:left;color:var(--muted);font-size:13px}
+.flash-list{display:grid;gap:10px;margin-bottom:14px}.flash{background:rgba(202,168,90,.12);border:1px solid rgba(202,168,90,.3);color:#f7dfab;padding:10px 12px;border-radius:10px}.empty{padding:26px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+.fuel-row,.check-list,.actions-inline{display:flex;flex-wrap:wrap;gap:10px}.check-list label{margin:0}.actions-inline{justify-content:flex-end}
+.contract-actions{display:flex;justify-content:flex-end;gap:10px;margin-bottom:16px}
+.contract-page{background:white;color:#111;padding:28px;border-radius:16px;max-width:1000px;margin:0 auto}.contract-head{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:start}.contract-logo{width:96px;height:96px;border:2px solid #b48b2f;border-radius:16px;display:grid;place-items:center;color:#b48b2f;font-size:36px;font-weight:800}.company-title{font-size:20px;font-weight:800;margin-bottom:4px}.contract-page h2{text-align:center;margin:20px 0}.contract-page h3{margin:16px 0 8px}.line{min-height:30px;padding:7px 0;border-bottom:1px solid #999}.line.tall{min-height:170px}.line.sig{min-height:42px}.damage-layout{grid-template-columns:280px 1fr;align-items:start;margin-top:16px}.damage-car-box{border:1px solid #bbb;border-radius:8px;padding:10px;text-align:center}.car-svg{width:100%;max-width:220px}.damage-flags{display:grid;grid-template-columns:1fr 1fr;gap:6px;text-align:left;margin-top:10px;font-size:13px}.signatures{margin-top:24px}.sig-block{text-align:center}
+@media print {.topbar,.sidebar,.contract-actions,.flash-list{display:none !important}.layout{display:block}.content{padding:0}.contract-page{box-shadow:none;border-radius:0;max-width:none;margin:0;padding:16px}}
+@media (max-width: 980px){.layout{grid-template-columns:1fr}.sidebar{flex-direction:row;overflow:auto}.cards,.grid-2,.form-grid,.contract-grid,.damage-layout{grid-template-columns:1fr}.content{padding:14px}.contract-head{grid-template-columns:1fr}}

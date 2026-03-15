@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Scheda lavoro</title>
+<style>
+body{font-family:Arial;margin:40px}
+.box{border:1px solid #ccc;padding:20px;border-radius:8px;width:600px}
+h1{margin-bottom:20px}
+</style>
+</head>
+
+<body>
+
+<h1>Scheda lavoro #{{ scheda.id }}</h1>
+
+<div class="box">
+Cliente: {{ scheda.client_name }}<br><br>
+Targa: {{ scheda.plate }}<br><br>
+Marca: {{ scheda.marca }}<br><br>
+Modello: {{ scheda.modello }}<br><br>
+Colore: {{ scheda.colore }}<br><br>
+
+<strong>Lavori:</strong><br>
+{{ scheda.work_description }}<br><br>
+
+Note:<br>
+{{ scheda.notes }}
+
+</div>
+
+<br>
+
+<a href="/">Torna al gestionale</a>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid-2">
+  <section class="panel">
+    <h2>Nuovo noleggio</h2>
+    <form method="post">
+      <div class="form-grid">
+        <div><label>Numero contratto</label><input value="{{ next_contract }}" disabled></div>
+        <div><label>Data contratto</label><input name="contract_date" type="date" value="{{ today }}"></div>
+        <div><label>Cliente</label><select name="client_id" required>{% for c in clients %}<option value="{{ c.id }}">{{ c.full_name }}</option>{% endfor %}</select></div>
+        <div><label>Veicolo</label><select name="vehicle_id" required>{% for v in vehicles %}<option value="{{ v.id }}">{{ v.make_model }} - {{ v.plate }}</option>{% endfor %}</select></div>
+        <div><label>Data consegna</label><input name="delivery_date" type="date" value="{{ today }}"></div>
+        <div><label>Data restituzione</label><input name="return_date" type="date"></div>
+        <div><label>Ora uscita</label><input name="ora_uscita" type="time"></div>
+        <div><label>Ora rientro</label><input name="ora_rientro" type="time"></div>
+        <div><label>KM uscita</label><input name="km_out" type="number"></div>
+        <div><label>Stato</label><select name="status"><option>Attivo</option><option>Chiuso</option></select></div>
+        <div class="full"><label>Carburante uscita</label>
+          <div class="fuel-row">
+            <label><input type="radio" name="fuel_out" value="1/4"> 1/4</label>
+            <label><input type="radio" name="fuel_out" value="1/2"> 1/2</label>
+            <label><input type="radio" name="fuel_out" value="3/4"> 3/4</label>
+            <label><input type="radio" name="fuel_out" value="Pieno" checked> Pieno</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2 mt-20">
+        <div class="subpanel">
+          <h3>Flag danni</h3>
+          <div class="check-list">
+            <label><input type="checkbox" name="damage_front"> Ant.</label>
+            <label><input type="checkbox" name="damage_rear"> Post.</label>
+            <label><input type="checkbox" name="damage_left_front"> SX ant.</label>
+            <label><input type="checkbox" name="damage_left_rear"> SX post.</label>
+            <label><input type="checkbox" name="damage_right_front"> DX ant.</label>
+            <label><input type="checkbox" name="damage_right_rear"> DX post.</label>
+          </div>
+        </div>
+        <div class="subpanel">
+          <h3>Descrizione danni</h3>
+          <textarea name="damage_notes"></textarea>
+        </div>
+      </div>
+
+      <div class="grid-2 mt-20">
+        <div><label>Firma Cliente</label><input name="client_signature"></div>
+        <div><label>Firma Dellicar</label><input name="dellicar_signature"></div>
+      </div>
+      <div class="mt-20"><button class="btn" type="submit">Salva noleggio</button></div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Storico noleggi</h2>
+    {% if rentals %}
+    <table>
+      <thead><tr><th>Contratto</th><th>Cliente</th><th>Veicolo</th><th>Stato</th><th></th></tr></thead>
+      <tbody>
+        {% for r in rentals %}
+        <tr>
+          <td>{{ r.contract_number }}</td>
+          <td>{{ r.full_name }}</td>
+          <td>{{ r.make_model }}<div class="muted small">{{ r.plate }}</div></td>
+          <td>{{ r.status }}</td>
+          <td class="actions-inline">
+            <a class="btn secondary" href="{{ url_for('rental_detail', rental_id=r.id) }}">Contratto</a>
+            {% if r.status == 'Attivo' %}<a class="btn" href="{{ url_for('close_rental', rental_id=r.id) }}">Restituisci</a>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty">Nessun noleggio inserito.</div>{% endif %}
+  </section>
+</div>
+{% endblock %}

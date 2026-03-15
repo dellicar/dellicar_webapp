@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Scheda lavoro</title>
+<style>
+body{font-family:Arial;margin:40px}
+.box{border:1px solid #ccc;padding:20px;border-radius:8px;width:600px}
+h1{margin-bottom:20px}
+</style>
+</head>
+
+<body>
+
+{% if session.get("logged") %}
+<style>
+.dellicar-userbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:9999;
+    background:#111;
+    color:#fff;
+    padding:10px 16px;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.25);
+}
+.dellicar-userbar a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    margin-left:12px;
+}
+body{ padding-top:52px !important; }
+@media print{
+    .dellicar-userbar{ display:none !important; }
+    body{ padding-top:0 !important; }
+}
+</style>
+<div class="dellicar-userbar">
+    <div><strong>DELLICAR Gestionale</strong></div>
+    <div>Utente: {{ session.get("username","-") }} ({{ session.get("role","-") }}) <a href="/logout">Logout</a></div>
+</div>
+{% endif %}
+
+
+<h1>Scheda lavoro #{{ scheda.id }}</h1>
+
+<div class="box">
+Cliente: {{ scheda.client_name }}<br><br>
+Targa: {{ scheda.plate }}<br><br>
+Marca: {{ scheda.marca }}<br><br>
+Modello: {{ scheda.modello }}<br><br>
+Colore: {{ scheda.colore }}<br><br>
+
+<strong>Lavori:</strong><br>
+{{ scheda.work_description }}<br><br>
+
+Note:<br>
+{{ scheda.notes }}
+
+</div>
+
+<br>
+
+<a href="/">Torna al gestionale</a>
+
+</body>
+</html>

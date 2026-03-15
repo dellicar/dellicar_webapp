@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid-2">
+  <section class="panel">
+    <h2>Nuovo cliente</h2>
+    <form method="post" class="form-grid">
+      <div><label>Nome e cognome</label><input name="full_name" required></div>
+      <div><label>Telefono</label><input name="phone"></div>
+      <div><label>Email</label><input name="email"></div>
+      <div><label>Residenza</label><input name="residence"></div>
+      <div><label>Patente n°</label><input name="license_number"></div>
+      <div><label>Scadenza patente</label><input name="license_expiry" type="date"></div>
+      <div><label>Rilasciata da</label><input name="issued_by"></div>
+      <div><label>Note</label><input name="notes"></div>
+      <div class="full"><button class="btn" type="submit">Salva cliente</button></div>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Archivio clienti</h2>
+    {% if clients %}
+    <table>
+      <thead><tr><th>Cliente</th><th>Telefono</th><th>Patente</th><th></th></tr></thead>
+      <tbody>
+        {% for c in clients %}
+        <tr>
+          <td>{{ c.full_name }}<div class="muted small">{{ c.email }}</div></td>
+          <td>{{ c.phone }}</td>
+          <td>{{ c.license_number }}</td>
+          <td>
+            <form method="post" action="{{ url_for('delete_client', client_id=c.id) }}" onsubmit="return confirm('Eliminare cliente?')">
+              <button type="submit" class="btn danger">Elimina</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty">Nessun cliente inserito.</div>{% endif %}
+  </section>
+</div>
+{% endblock %}

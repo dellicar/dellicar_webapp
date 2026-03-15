@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="panel max-w">
+  <h2>Restituzione veicolo</h2>
+  <p><strong>{{ rental.contract_number }}</strong> · {{ rental.full_name }} · {{ rental.make_model }} / {{ rental.plate }}</p>
+  <form method="post" class="form-grid">
+    <div><label>KM rientro</label><input name="km_in" type="number" required></div>
+    <div><label>Carburante rientro</label>
+      <select name="fuel_in"><option>1/4</option><option>1/2</option><option>3/4</option><option>Pieno</option></select>
+    </div>
+    <div class="full"><label>Note restituzione / nuovi danni</label><textarea name="return_notes"></textarea></div>
+    <div class="full"><button class="btn" type="submit">Chiudi noleggio</button></div>
+  </form>
+</section>
+{% endblock %}

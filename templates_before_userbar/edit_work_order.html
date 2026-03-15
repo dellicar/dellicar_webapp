@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modifica Scheda Lavori</title>
+    <style>
+        body{
+            font-family: Arial;
+            background:#f4f4f4;
+            padding:40px;
+        }
+
+        .container{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            max-width:900px;
+            margin:auto;
+        }
+
+        h1{
+            margin-bottom:30px;
+        }
+
+        label{
+            display:block;
+            margin-top:15px;
+            font-weight:bold;
+        }
+
+        input, textarea, select{
+            width:100%;
+            padding:10px;
+            margin-top:5px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            box-sizing:border-box;
+        }
+
+        textarea{
+            min-height:120px;
+        }
+
+        .btn{
+            display:inline-block;
+            margin-top:20px;
+            padding:10px 16px;
+            background:black;
+            color:white;
+            text-decoration:none;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modifica Scheda Lavori</h1>
+
+        <form method="POST">
+            <label>Cliente</label>
+            <input type="text" name="client_name" value="{{ w.client_name 
+or '' }}">
+
+            <label>Targa</label>
+            <input type="text" name="plate" value="{{ w.plate or '' }}">
+
+            <label>Priorità</label>
+            <select name="priority">
+                <option value="Bassa" {% if w.priority == 'Bassa' 
+%}selected{% endif %}>Bassa</option>
+                <option value="Media" {% if w.priority == 'Media' 
+%}selected{% endif %}>Media</option>
+                <option value="Alta" {% if w.priority == 'Alta' 
+%}selected{% endif %}>Alta</option>
+                <option value="Urgente" {% if w.priority == 'Urgente' 
+%}selected{% endif %}>Urgente</option>
+            </select>
+
+            <label>Lavori eseguiti</label>
+            <textarea name="work_description">{{ w.work_description or '' 
+}}</textarea>
+
+            <label>Note</label>
+            <textarea name="notes">{{ w.notes or '' }}</textarea>
+
+            <button class="btn" type="submit">Salva modifiche</button>
+            <a class="btn" href="/schede-lavori/{{ w.id }}">Annulla</a>
+        </form>
+    </div>
+</body>
+</html>

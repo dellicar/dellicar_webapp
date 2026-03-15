@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #000000; color: rgba(0, 0, 0, 0.85); -webkit-text-stroke: rgba(0, 0, 0, 0.85)}
+    span.s1 {font-kerning: none}
+    span.s2 {font: 12.0px Times; text-decoration: underline ; font-kerning: none; color: #0000e9; -webkit-text-stroke: 0px #0000e3}
+    span.s3 {font: 12.0px Times; font-kerning: none; -webkit-text-stroke: 0px #000000}
+    span.s4 {font-kerning: none; background-color: #a4a4a4}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">{% extends 'base.html' %} {% block content %}</span></p>
+<p class="p2"><span class="s2"><a href="file:///Users/alessiodellisanti/Desktop/dellicar_webapp/templates/%7B%7B%20url_for('rentals')%20%7D%7D">Torna ai noleggi</a></span><span class="s3"> </span><span class="s4">Stampa / Salva PDF</span></p>
+<p class="p1"><span class="s1">D</span></p>
+<p class="p1"><span class="s1">{{ company.company_name }}</span></p>
+<p class="p1"><span class="s1">{{ company.address }}</span></p>
+<p class="p1"><span class="s1">Tel. {{ company.phone }}</span></p>
+<p class="p1"><span class="s1">{{ company.email }} Â· {{ company.website }}</span></p>
+<p class="p1"><span class="s1">P.IVA {{ company.vat }}</span></p>
+<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>CONTRATTO NOLEGGIO VEICOLO</b></span></h2>
+<p class="p1"><span class="s1"><b>NÂ° Contratto</b></span></p>
+<p class="p1"><span class="s1">{{ rental.contract_number }}</span></p>
+<p class="p1"><span class="s1"><b>Data</b></span></p>
+<p class="p1"><span class="s1">{{ rental.contract_date }}</span></p>
+<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Dati cliente</b></span></h3>
+<p class="p1"><span class="s1"><b>Cliente</b></span></p>
+<p class="p1"><span class="s1">{{ rental.full_name }}</span></p>
+<p class="p1"><span class="s1"><b>Residenza</b></span></p>
+<p class="p1"><span class="s1">{{ rental.residence }}</span></p>
+<p class="p1"><span class="s1"><b>Telefono</b></span></p>
+<p class="p1"><span class="s1">{{ rental.phone }}</span></p>
+<p class="p1"><span class="s1"><b>Email</b></span></p>
+<p class="p1"><span class="s1">{{ rental.email }}</span></p>
+<p class="p1"><span class="s1"><b>Patente nÂ°</b></span></p>
+<p class="p1"><span class="s1">{{ rental.license_number }}</span></p>
+<p class="p1"><span class="s1"><b>Scadenza patente</b></span></p>
+<p class="p1"><span class="s1">{{ rental.license_expiry }}</span></p>
+<p class="p1"><span class="s1"><b>Rilasciata da</b></span></p>
+<p class="p1"><span class="s1">{{ rental.issued_by }}</span></p>
+<h3 style="margin: 0.0px 0.0px 14.0px 0.0px; font: 14.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Dati veicolo</b></span></h3>
+<p class="p1"><span class="s1"><b>Veicolo</b></span></p>
+<p class="p1"><span class="s1">{{ rental.make_model }}</span></p>
+<p class="p1"><span class="s1"><b>Targa</b></span></p>
+<p class="p1"><span class="s1">{{ rental.plate }}</span></p>
+<p class="p1"><span class="s1"><b>KM uscita</b></span></p>
+<p class="p1"><span class="s1">{{ rental.km_out }}</span></p>
+<p class="p1"><span class="s1"><b>Carburante uscita</b></span></p>
+<p class="p1"><span class="s1">{{ rental.fuel_out }}</span></p>
+<p class="p1"><span class="s1"><b>Data consegna</b></span></p>
+<p class="p1"><span class="s1">{{ rental.delivery_date }}</span></p>
+<p class="p1"><span class="s1"><b>Data restituzione</b></span></p>
+<p class="p1"><span class="s1">{{ rental.return_date }}</span></p>
+<p class="p1"><span class="s1">{% if rental.damage_front %}{% endif %} {% if rental.damage_rear %}{% endif %} {% if rental.damage_left_front %}{% endif %} {% if rental.damage_left_rear %}{% endif %} {% if rental.damage_right_front %}{% endif %} {% if rental.damage_right_rear %}{% endif %}</span></p>
+<p class="p1"><span class="s1">Ant.: {{ 'SI' if rental.damage_front else 'NO' }}</span></p>
+<p class="p1"><span class="s1">Post.: {{ 'SI' if rental.damage_rear else 'NO' }}</span></p>
+<p class="p1"><span class="s1">SX ant.: {{ 'SI' if rental.damage_left_front else 'NO' }}</span></p>
+<p class="p1"><span class="s1">SX post.: {{ 'SI' if rental.damage_left_rear else 'NO' }}</span></p>
+<p class="p1"><span class="s1">DX ant.: {{ 'SI' if rental.damage_right_front else 'NO' }}</span></p>
+<p class="p1"><span class="s1">DX post.: {{ 'SI' if rental.damage_right_rear else 'NO' }}</span></p>
+<p class="p1"><span class="s1"><b>Descrizione danni</b></span></p>
+<p class="p1"><span class="s1">{{ rental.damage_notes }}</span></p>
+<p class="p1"><span class="s1">Firma Cliente</span></p>
+<p class="p1"><span class="s1">{{ rental.client_signature }}</span></p>
+<p class="p1"><span class="s1">Firma Dellicar</span></p>
+<p class="p1"><span class="s1">{{ rental.dellicar_signature }}</span></p>
+<p class="p1"><span class="s1">{% endblock %}</span></p>
+</body>
+</html>

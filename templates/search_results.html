@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Risultati ricerca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+        h1 { margin-top: 0; }
+        h2 { margin-top: 30px; }
+        .box {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .muted { color: #666; }
+    </style>
+</head>
+<body>
+
+{% if session.get("logged") %}
+<style>
+.dellicar-userbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:9999;
+    background:#111;
+    color:#fff;
+    padding:10px 16px;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.25);
+}
+.dellicar-userbar a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    margin-left:12px;
+}
+body{ padding-top:52px !important; }
+@media print{
+    .dellicar-userbar{ display:none !important; }
+    body{ padding-top:0 !important; }
+}
+</style>
+<div class="dellicar-userbar">
+    <div><strong>DELLICAR Gestionale</strong></div>
+    <div>Utente: {{ session.get("username","-") }} ({{ session.get("role","-") }}) <a href="/logout">Logout</a></div>
+</div>
+{% endif %}
+
+    <div class="container">
+        <h1>Risultati ricerca</h1>
+        <p><strong>Ricerca:</strong> {{ query }}</p>
+
+        <h2>Carrozzeria</h2>
+        {% if work_orders %}
+            {% for w in work_orders %}
+                <div class="box">
+                    <strong>Scheda #{{ w.id }}</strong><br>
+                    Cliente: {{ w.client_name }}<br>
+                    Targa: {{ w.plate }}<br>
+                    Marca: {{ w.marca or '' }}<br>
+                    Modello: {{ w.modello or '' }}<br>
+                    Colore: {{ w.colore or '' }}<br>
+                    Lavori: {{ w.work_description or '' }}<br>
+                    <a class="btn" href="/scheda/{{ w.id }}">Apri scheda</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="muted">Nessun risultato in carrozzeria.</p>
+        {% endif %}
+
+        <h2>Clienti</h2>
+        {% if clients %}
+            {% for c in clients %}
+                <div class="box">
+                    <strong>{{ c.name or '' }}</strong><br>
+                    Telefono: {{ c.phone or '' }}<br>
+                    Email: {{ c.email or '' }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="muted">Nessun cliente trovato.</p>
+        {% endif %}
+
+        <h2>Veicoli</h2>
+        {% if vehicles %}
+            {% for v in vehicles %}
+                <div class="box">
+                    <strong>{{ v.make_model or '' }}</strong><br>
+                    Targa: {{ v.plate or '' }}<br>
+                    Stato: {{ v.status or '' }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="muted">Nessun veicolo trovato.</p>
+        {% endif %}
+
+        <h2>Noleggi</h2>
+        {% if rentals %}
+            {% for r in rentals %}
+                <div class="box">
+                    <strong>Contratto {{ r.contract_number or '' }}</strong><br>
+                    Cliente: {{ r.first_name or '' }} {{ r.last_name or '' }}<br>
+                    Veicolo: {{ r.make_model or '' }}<br>
+                    Targa: {{ r.plate or '' }}<br>
+                    Consegna: {{ r.delivery_date or '' }}<br>
+                    Rientro: {{ r.return_date or '' }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="muted">Nessun noleggio trovato.</p>
+        {% endif %}
+
+        <br>
+        <a class="btn" href="/">Torna al gestionale</a>
+    </div>
+</body>
+</html>

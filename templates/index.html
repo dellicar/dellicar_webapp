@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dellicar Automotive Gestionale</title>
+</head>
+
+<body>
+
+{% if schede is defined %}
+<div style="margin:18px 0;padding:14px;border:2px solid #444;border-radius:10px;background:#111;color:#fff;">
+  <h3 style="margin-top:0;">Stato lavori</h3>
+  <table style="width:100%;border-collapse:collapse;color:#fff;">
+    <tr>
+      <th style="text-align:left;padding:8px 6px;">Targa</th>
+      <th style="text-align:left;padding:8px 6px;">Stato attuale</th>
+      <th style="text-align:left;padding:8px 6px;">Bottoni rapidi</th>
+    </tr>
+    {% for s in schede %}
+    <tr style="border-top:1px solid #333;">
+      <td style="padding:10px 6px;"><b>{{ s.plate }}</b></td>
+      <td style="padding:10px 6px;">{{ s.work_status }}</td>
+      <td style="padding:10px 6px;">
+        <form method="post" action="/work-orders/{{ s.id }}/status" style="display:flex;flex-wrap:wrap;gap:6px;">
+          <button name="work_status" value="Accettata">Accettata</button>
+          <button name="work_status" value="In smontaggio">Smontaggio</button>
+          <button name="work_status" value="In verniciatura">Verniciatura</button>
+          <button name="work_status" value="In rimontaggio">Rimontaggio</button>
+          <button name="work_status" value="In finitura">Finitura</button>
+          <button name="work_status" value="Pronta">Pronta</button>
+          <button name="work_status" value="Consegnata">Consegnata</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+
+
+{% if session.get("logged") %}
+<style>
+.dellicar-userbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:9999;
+    background:#111;
+    color:#fff;
+    padding:10px 16px;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.25);
+}
+.dellicar-userbar a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    margin-left:12px;
+}
+body{ padding-top:52px !important; }
+@media print{
+    .dellicar-userbar{ display:none !important; }
+    body{ padding-top:0 !important; }
+}
+</style>
+<div class="dellicar-userbar">
+    <div><strong>DELLICAR Gestionale</strong></div>
+    <div>Utente: {{ session.get("username","-") }} ({{ session.get("role","-") }}) <a href="/logout">Logout</a></div>
+</div>
+{% endif %}
+
+
+<h1>Dellicar Automotive Gestionale</h1>
+<h3>DELLICAR AUTOMOTIVE</h3>
+
+<h2>Cerca targa</h2>
+
+<form action="/search_rentals" method="get">
+    <input type="text" name="plate" placeholder="Inserisci targa">
+    <input type="date" name="date">
+    <button type="submit">Cerca</button>
+</form>
+
+<br>
+
+<a href="/clients">Clienti</a><br>
+<a href="/vehicles">Veicoli</a><br>
+<a href="/rentals">Noleggi</a>
+
+
+
+
+
+
+
+<div style="margin-top:14px;">
+
+</div>
+
+</body>
+</html>
