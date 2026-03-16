@@ -512,10 +512,10 @@ def close_rental(rental_id: int) -> str:
         db.execute(
             """
             UPDATE rentals
-            SET status='Chiuso', km_in=?, fuel_in=?, return_notes=?
+            SET status='Chiuso', km_in=?, fuel_in=?, return_notes=?, return_date=?
             WHERE id=?
             """,
-            (km_in, fuel_in, notes, rental_id),
+            (km_in, fuel_in, notes, date.today().isoformat(), rental_id),
         )
         db.execute(
             "UPDATE vehicles SET status='Disponibile', km=?, fuel=? WHERE id=?",
