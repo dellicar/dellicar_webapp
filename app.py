@@ -512,8 +512,7 @@ def close_rental(rental_id: int) -> str:
         notes = request.form.get("return_notes", "").strip()
         
         from datetime import datetime
-        from zoneinfo import ZoneInfo
-        return_time = datetime.now(ZoneInfo("Europe/Rome")).strftime("%H:%M")
+        return_time = datetime.now().strftime("%H:%M")
 
         db.execute(
             """
