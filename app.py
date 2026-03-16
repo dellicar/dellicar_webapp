@@ -406,19 +406,20 @@ def rentals() -> str:
             """
             INSERT INTO rentals(
                 contract_number, contract_date, client_id, vehicle_id,
-                delivery_date, return_date, km_out, fuel_out, status,
+                delivery_date, delivery_time, return_date, km_out, fuel_out, status,
                 damage_front, damage_rear, damage_left_front, damage_left_rear,
                 damage_right_front, damage_right_rear, damage_notes,
                 client_signature, dellicar_signature
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             """,
             (
                 contract_number,
                 form.get("contract_date") or date.today().isoformat(),
                 client_id,
                 vehicle_id,
-                form.get("delivery_date", ""),
-                form.get("return_date", ""),
+                form.get("delivery_date",""),
+                form.get("ora_uscita",""),
+                form.get("return_date",""),
                 int(form.get("km_out", 0) or 0),
                 form.get("fuel_out", "Pieno"),
                 form.get("status", "Attivo"),
@@ -509,13 +510,17 @@ def close_rental(rental_id: int) -> str:
         km_in = int(request.form.get("km_in", 0) or 0)
         fuel_in = request.form.get("fuel_in", "Pieno")
         notes = request.form.get("return_notes", "").strip()
+        
+        from datetime import datetime
+        return_time = datetime.now().strftime("%H:%M")
+
         db.execute(
             """
             UPDATE rentals
-            SET status='Chiuso', km_in=?, fuel_in=?, return_notes=?, return_date=?
+            SET status='Chiuso', km_in=?, fuel_in=?, return_notes=?, return_date=?, return_time=?
             WHERE id=?
             """,
-            (km_in, fuel_in, notes, date.today().isoformat(), rental_id),
+            (km_in, fuel_in, notes, date.today().isoformat(), return_time, rental_id),
         )
         db.execute(
             "UPDATE vehicles SET status='Disponibile', km=?, fuel=? WHERE id=?",
