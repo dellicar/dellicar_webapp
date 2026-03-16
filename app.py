@@ -511,8 +511,8 @@ def close_rental(rental_id: int) -> str:
         fuel_in = request.form.get("fuel_in", "Pieno")
         notes = request.form.get("return_notes", "").strip()
         
-        from datetime import datetime
-        return_time = datetime.now().strftime("%H:%M")
+        from datetime import datetime, timedelta
+        return_time = (datetime.now() + timedelta(hours=1)).strftime("%H:%M")
 
         db.execute(
             """
