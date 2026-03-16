@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Archivio Schede Lavori</title>
+    <style>
+        body{
+            font-family: Arial;
+            background:#f5f5f5;
+            padding:40px;
+        }
+
+        .container{
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            max-width:1100px;
+            margin:auto;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th, td{
+            border:1px solid #ddd;
+            padding:10px;
+            text-align:left;
+        }
+
+        th{
+            background:#111;
+            color:white;
+        }
+
+        tr:nth-child(even){
+            background:#f9f9f9;
+        }
+
+        .btn{
+            display:inline-block;
+            padding:10px 16px;
+            background:black;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+            margin-bottom:20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Archivio Schede Lavori Dellicar</h1>
+<form method="get" style="margin-bottom:20px;">
+<input type="text" name="search" 
+placeholder="Cerca targa o cliente"> 
+<button type="submit">Cerca</button>
+</form>
+
+        <a class="btn" href="/scheda-lavori">Nuova Scheda Lavori</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Targa</th>
+                    <th>Priorità</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in work_orders %}
+                <tr>
+    <td>{{ w.id }}</td>
+    <td>{{ w.client_name }}</td>
+    <td>{{ w.plate }}</td>
+    <td>{{ w.priority }}</td>
+    <td>{{ w.created_at }}</td>
+    <td>
+        <a class="btn" href="/schede-lavori/{{ w.id }}">Apri</a>
+    </td>
+</tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

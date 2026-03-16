@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ricerca Noleggi</title>
+</head>
+<body>
+
+<h2>Risultati ricerca</h2>
+
+<table border="1">
+<tr>
+<th>Cliente</th>
+<th>Targa</th>
+<th>Data uscita</th>
+<th>Data rientro</th>
+</tr>
+
+{% for r in results %}
+<tr>
+<td>{{ r.full_name or "Cliente eliminato" }}</td>
+<td>{{ r.plate }}</td>
+<td>{{ r.delivery_date }}</td>
+<td>{{ r.return_date }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

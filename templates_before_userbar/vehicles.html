@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Nuovo veicolo</h1>
+
+<form method="POST" action="/vehicles">
+    <p>Marca / Modello</p>
+    <input type="text" name="make_model" required>
+
+    <p>Targa</p>
+    <input type="text" name="plate" required>
+
+    <p>KM attuali</p>
+    <input type="number" name="km" value="0">
+
+    <p>Stato</p>
+    <select name="status">
+        <option value="Disponibile">Disponibile</option>
+        <option value="Noleggiata">Noleggiata</option>
+        <option value="Prenotata">Prenotata</option>
+        <option value="Manutenzione">Manutenzione</option>
+    </select>
+
+    <p>Carburante</p>
+    <select name="fuel">
+        <option value="1/4">1/4</option>
+        <option value="1/2">1/2</option>
+        <option value="3/4">3/4</option>
+        <option value="Pieno">Pieno</option>
+    </select>
+
+    <p>Note</p>
+    <input type="text" name="notes">
+
+    <br><br>
+    <button type="submit">Salva veicolo</button>
+</form>
+
+<h1>Parco veicoli</h1>
+
+{% if vehicles %}
+<table>
+    <thead>
+        <tr>
+            <th>Veicolo</th>
+            <th>Targa</th>
+            <th>KM</th>
+            <th>Stato</th>
+            <th>Azione</th>
+            <th>Elimina</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for v in vehicles %}
+        <tr>
+            <td>{{ v.make_model }}</td>
+            <td>{{ v.plate }}</td>
+            <td>{{ v.km }}</td>
+            <td>
+                <form method="POST" action="/update_vehicle_status" style="display:inline;">
+                    <select name="status">
+                        <option value="Disponibile" {% if v.status == "Disponibile" %}selected{% endif %}>Disponibile</option>
+                        <option value="Noleggiata" {% if v.status == "Noleggiata" %}selected{% endif %}>Noleggiata</option>
+                        <option value="Prenotata" {% if v.status == "Prenotata" %}selected{% endif %}>Prenotata</option>
+                        <option value="Manutenzione" {% if v.status == "Manutenzione" %}selected{% endif %}>Manutenzione</option>
+                    </select>
+                    <input type="hidden" name="plate" value="{{ v.plate }}">
+                    <button type="submit">OK</button>
+                </form>
+            </td>
+            <td></td>
+            <td>
+                <form method="POST" action="/delete_vehicle/{{ v.id }}" style="display:inline;">
+                    <button type="submit">Elimina</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Nessun veicolo inserito.</p>
+{% endif %}
+
+{% endblock %}

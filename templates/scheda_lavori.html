@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Scheda Lavori Dellicar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f3f3;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .page {
+            width: 850px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px 35px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .header-left {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            flex: 1;
+        }
+
+        .logo-box img {
+            width: 150px;
+            height: auto;
+            object-fit: contain;
+            border: 1px solid #ddd;
+        }
+
+        .title-box h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        .title-box p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .header-right {
+            width: 180px;
+        }
+
+        .top-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 10px;
+        }
+
+        .top-field label {
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .top-field input {
+            width: 95px;
+            padding: 8px;
+            border: 1px solid #666;
+            background: #eef0ff;
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 170px 1fr;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .row label {
+            font-size: 15px;
+        }
+
+        .row input,
+        .row textarea,
+        .row select {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #777;
+            background: #eef0ff;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .checkbox-row label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+        }
+
+        .actions {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        @media print {
+    @page {
+        size: A4;
+        margin: 8mm;
+    }
+
+    html, body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+        background: white;
+    }
+
+    body {
+        zoom: 0.88;
+    }
+
+    .page {
+        width: 100%;
+        margin: 0;
+        padding: 8mm 10mm;
+        box-sizing: border-box;
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    .actions {
+        display: none;
+    }
+
+    .row {
+        margin-bottom: 8px;
+    }
+
+    .row input,
+    .row textarea,
+    .row select {
+        border: 1px solid #666 !important;
+        background: #eef0ff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    textarea {
+        min-height: 70px !important;
+        height: 70px !important;
+    }
+
+    .logo-box img {
+        width: 110px;
+    }
+
+    .title-box h1 {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .title-box p {
+        font-size: 13px;
+        margin: 4px 0 0 0;
+    }
+
+    .header {
+        margin-bottom: 14px;
+    }
+
+    .top-field input {
+        padding: 6px;
+        font-size: 12px;
+    }
+}
+    </style>
+</head>
+<body>
+
+{% if session.get("logged") %}
+<style>
+.dellicar-userbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:9999;
+    background:#111;
+    color:#fff;
+    padding:10px 16px;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.25);
+}
+.dellicar-userbar a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+    margin-left:12px;
+}
+body{ padding-top:52px !important; }
+@media print{
+    .dellicar-userbar{ display:none !important; }
+    body{ padding-top:0 !important; }
+}
+</style>
+<div class="dellicar-userbar">
+    <div><strong>DELLICAR Gestionale</strong></div>
+    <div>Utente: {{ session.get("username","-") }} ({{ session.get("role","-") }}) <a href="/logout">Logout</a></div>
+</div>
+{% endif %}
+
+    <div class="page">
+        <form method="post" action="/scheda-lavori">
+            <div class="header">
+                <div class="header-left">
+                    <div class="logo-box">
+                        <img src="/static/logo.png" alt="Logo Dellicar">
+                    </div>
+
+                    <div class="title-box">
+                        <h1>SCHEDA LAVORI</h1>
+                        <p>Dellicar Automotive - Accettazione Veicolo</p>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="top-field">
+                        <label>N° Pratica:</label>
+                        <input type="text" name="numero_pratica" value="{{ prossimo_numero_pratica }}" readonly>
+                    </div>
+                    <div class="top-field">
+                        <label>Data:</label>
+                        <input type="date" name="data_scheda">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <label>Cliente:</label>
+                <input type="text" name="client_name">
+            </div>
+
+            <div class="row">
+                <label>Telefono:</label>
+                <input type="text" name="phone">
+            </div>
+
+            <div class="row">
+                <label>Email:</label>
+                <input type="text" name="email">
+            </div>
+
+            <div class="row">
+                <label>Marca / Modello:</label>
+                <input type="text" name="make_model">
+            </div>
+
+            <div class="row">
+                <label>Targa:</label>
+                <input type="text" name="plate">
+            </div>
+
+            <div class="row">
+                <label>Telaio:</label>
+                <input type="text" name="vin">
+            </div>
+
+            <div class="row">
+                <label>KM:</label>
+                <input type="text" name="km">
+            </div>
+
+            <div class="row">
+                <label>Data ingresso:</label>
+                <input type="date" name="data_ingresso">
+            </div>
+
+            <div class="row">
+                <label>Data consegna prevista:</label>
+                <input type="date" name="data_consegna">
+            </div>
+
+            <div class="row">
+                <label>Assicurazione:</label>
+                <input type="text" name="assicurazione">
+            </div>
+
+            <div class="row">
+                <label>N° sinistro:</label>
+                <input type="text" name="numero_sinistro">
+            </div>
+
+            <div class="row">
+                <label>Foto lavorazione:</label>
+                <div class="checkbox-row">
+                    <label><input type="radio" name="foto_lavorazione" value="SI"> SI</label>
+                    <label><input type="radio" name="foto_lavorazione" value="NO"> NO</label>
+                </div>
+            </div>
+
+            <div class="row" style="align-items: start;">
+                <label>Descrizione lavori richiesti:</label>
+                <textarea name="work_description"></textarea>
+            </div>
+
+            <div class="row" style="align-items: start;">
+                <label>Note interne officina:</label>
+                <textarea name="note_interne"></textarea>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn">Salva scheda</button>
+                <button type="button" class="btn btn-secondary" onclick="window.print()">Stampa</button>
+                <a href="/" class="btn btn-secondary">Torna al gestionale</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

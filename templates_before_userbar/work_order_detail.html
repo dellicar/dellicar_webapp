@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dettaglio Scheda Lavori</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f4f4f4;
+padding:40px;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:10px;
+max-width:900px;
+margin:auto;
+}
+@media print {
+    .no-print,
+    .no-print * {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        padding: 0 !important;
+    }
+
+    .container {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+    }
+}
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:10px 16px;
+    background:black;
+    color:white;
+    text-decoration:none;
+    border:none;
+    border-radius:6px;
+}
+
+@media print {
+    .btn{
+        display:none;
+    }
+}
+
+h1{
+margin-bottom:30px;
+}
+
+p{
+font-size:18px;
+margin:8px 0;
+}
+
+.btn{
+display:inline-block;
+margin-top:20px;
+padding:10px 16px;
+background:black;
+color:white;
+text-decoration:none;
+border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Scheda Lavori</h1>
+
+<p><strong>ID:</strong> {{ w.id }}</p>
+<p><strong>Cliente:</strong> {{ w.client_name }}</p>
+<p><strong>Targa:</strong> {{ w.plate }}</p>
+<p><strong>Marca:</strong> {{ w.marca }}</p>
+<p><strong>Modello:</strong> {{ w.modello }}</p>
+<p><strong>Colore:</strong> {{ w.colore }}</p>
+<p><strong>Priorità:</strong> {{ w.priority }}</p>
+<p><strong>Lavori da eseguire:</strong> {{ w.work_description }}</p>
+<p><strong>Note:</strong> {{ w.notes }}</p>
+<p><strong>Data creazione:</strong> {{ w.created_at }}</p>
+
+<div class="no-print">
+    <a class="btn" href="/schede-lavori">Torna archivio</a>
+    <a class="btn" href="/schede-lavori/{{ w.id }}/modifica">Modifica</a>
+    <a class="btn" href="/schede-lavori/{{ w.id }}/elimina">Elimina</a>
+    <button class="btn" onclick="window.print()">Stampa</button>
+</div>
+
+</div>
+
+</body>
+</html>

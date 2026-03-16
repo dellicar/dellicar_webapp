@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="cards">
+<div class="panel" style="margin-bottom:16px;">
+    <div class="panel-head">
+        <h3>Cerca cliente / targa / marca / modello</h3>
+    </div>
+
+        <form action="/search" method="get" style="display:flex; 
+gap:10px; align-items:center; flex-wrap:wrap;">
+        <input type="text" name="search" placeholder="Cliente, targa, marca, modello"> 
+        <input type="date" name="date" style="padding:10px; 
+border-radius:10px; border:1px solid #444;">
+        <button type="submit" class="btn">Cerca</button>
+    </form>
+</div>
+  <div class="card"><h3>Veicoli disponibili</h3><div class="metric">{{ metrics.available }}</div></div>
+<h3>Cerca targa noleggio</h3>
+
+<form action="/search_rentals" method="get">
+<input type="text" name="plate" placeholder="Inserisci targa">
+<input type="date" name="date">
+<button type="submit">Cerca</button>
+</form>
+
+<br>
+  <div class="card"><h3>Noleggi attivi</h3><div class="metric">{{ metrics.active }}</div></div>
+  <div class="card"><h3>Rientri oggi</h3><div class="metric">{{ metrics.due_today }}</div></div>
+  <div class="card"><h3>Clienti</h3><div class="metric">{{ metrics.clients }}</div></div>
+</div>
+<div class="panel mt-20">
+    <div class="panel-head">
+        <h2>Carrozzeria</h2>
+    </div>
+
+    <a class="btn" href="/scheda-lavori">Nuova Scheda Lavori</a>
+<a class="btn" href="/schede-lavori">Archivio Schede</a>
+</div>
+<div class="grid-2 mt-20">
+  <section class="panel">
+    <div class="panel-head"><h2>Noleggi attivi</h2><a class="btn" href="{{ url_for('rentals') }}">Nuovo noleggio</a></div>
+    {% if active_rentals %}
+    <table>
+      <thead><tr><th>Contratto</th><th>Cliente</th><th>Auto</th><th>Rientro</th></tr></thead>
+      <tbody>
+        {% for r in active_rentals %}
+        <tr>
+          <td><a href="{{ url_for('rental_detail', rental_id=r.id) }}">{{ r.contract_number }}</a></td>
+          <td>{{ r.full_name }}</td>
+          <td>{{ r.make_model }}<div class="muted small">{{ r.plate }}</div></td>
+          <td>{{ r.return_date or '' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty">Nessun noleggio attivo.</div>{% endif %}
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>Veicoli</h2><a class="btn" href="{{ url_for('vehicles') }}">Apri</a></div>
+    {% if vehicles %}
+    <table>
+      <thead><tr><th>Auto</th><th>Targa</th><th>Stato</th></tr></thead>
+      <tbody>
+        {% for v in vehicles %}
+        <tr>
+          <td>{{ v.make_model }}</td>
+          <td>{{ v.plate }}</td>
+          <td><span class="status {{ v.status }}">{{ v.status }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<div class="empty">Nessun veicolo inserito.</div>{% endif %}
+  </section>
+</div>
+{% endblock %}

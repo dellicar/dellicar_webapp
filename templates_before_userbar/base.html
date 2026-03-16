@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Dellicar Noleggio{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="logo-box">D</div>
+      <div>
+        <h1>Dellicar Noleggio Gestionale</h1>
+        <p>{{ company.company_name }} · {{ today }}</p>
+      </div>
+    </div>
+    <form class="demo-form" method="post" action="{{ url_for('seed_demo_route') }}">
+      <button type="submit" class="btn secondary">Carica dati demo</button>
+    </form>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('clients') }}">Clienti</a>
+      <a href="{{ url_for('vehicles') }}">Veicoli</a>
+      <a href="{{ url_for('rentals') }}">Noleggi</a>
+      <a href="{{ url_for('settings') }}">Impostazioni</a>
+    </aside>
+
+    <main class="content">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash-list">
+            {% for message in messages %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

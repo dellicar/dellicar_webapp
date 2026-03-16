@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="margin-bottom:20px;">
+  <a href="{{ url_for('rentals') }}">Torna ai noleggi</a>
+  <button onclick="window.print()">Stampa / Salva PDF</button>
+</div>
+
+<div style="background:white; color:black; padding:30px; max-width:1000px; 
+margin:auto; border-radius:10px;">
+
+  <div style="display:flex; align-items:flex-start; gap:20px; 
+margin-bottom:30px;">
+    <img src="{{ url_for('static', filename='logo.png') }}" 
+style="height:90px;">
+    <div style="color:black;">
+      <strong>{{ company.company_name }}</strong><br>
+      {{ company.address }}<br>
+      Tel. {{ company.phone }}<br>
+      {{ company.email }} · {{ company.website }}<br>
+      P.IVA {{ company.vat }}
+    </div>
+  </div>
+
+  <h1 style="margin:0 0 30px 0; color:black;">CONTRATTO NOLEGGIO 
+VEICOLO</h1>
+
+  <div style="display:flex; justify-content:space-between; gap:40px;">
+    <div style="width:50%;">
+      <p><strong>N° Contratto</strong><br>{{ rental.contract_number }}</p>
+    </div>
+    <div style="width:50%;">
+      <p><strong>Data</strong><br>{{ rental.contract_date }}</p>
+    </div>
+  </div>
+
+  <div style="display:flex; justify-content:space-between; gap:40px; 
+margin-top:20px;">
+    <div style="width:50%;">
+      <h3 style="color:black;">Dati cliente</h3>
+      <p><strong>Cliente</strong><br>{{ rental.full_name }}</p>
+      <p><strong>Residenza</strong><br>{{ rental.residence }}</p>
+      <p><strong>Telefono</strong><br>{{ rental.phone }}</p>
+      <p><strong>Email</strong><br>{{ rental.email }}</p>
+      <p><strong>Patente n°</strong><br>{{ rental.license_number }}</p>
+      <p><strong>Scadenza patente</strong><br>{{ rental.license_expiry 
+}}</p>
+      <p><strong>Rilasciata da</strong><br>{{ rental.license_issued_by 
+}}</p>
+    </div>
+
+    <div style="width:50%;">
+      <h3 style="color:black;">Dati veicolo</h3>
+      <p><strong>Veicolo</strong><br>{{ rental.make_model }}</p>
+      <p><strong>Targa</strong><br>{{ rental.plate }}</p>
+      <p><strong>KM uscita</strong><br>{{ rental.km_out }}</p>
+      <p><strong>Carburante uscita</strong><br>{{ rental.fuel_out }}</p>
+      <p><strong>Data consegna</strong><br>{{ rental.delivery_date }}</p>
+      <p><strong>Data restituzione</strong><br>{{ rental.return_date 
+}}</p>
+    </div>
+  </div>
+
+  <div style="margin-top:30px;">
+    <h3 style="color:black;">Stato vettura</h3>
+    <p><strong>Ant.:</strong> {{ 'SI' if rental.damage_front else 'NO' 
+}}</p>
+    <p><strong>Post.:</strong> {{ 'SI' if rental.damage_rear else 'NO' 
+}}</p>
+    <p><strong>SX ant.:</strong> {{ 'SI' if rental.damage_left_front else 
+'NO' }}</p>
+    <p><strong>SX post.:</strong> {{ 'SI' if rental.damage_left_rear else 
+'NO' }}</p>
+    <p><strong>DX ant.:</strong> {{ 'SI' if rental.damage_right_front else 
+'NO' }}</p>
+    <p><strong>DX post.:</strong> {{ 'SI' if rental.damage_right_rear else 
+'NO' }}</p>
+    <p><strong>Descrizione danni</strong><br>{{ rental.damage_notes }}</p>
+  </div>
+
+</div>
+<h3>Firma Cliente</h3>
+
+
+<canvas id="signature-pad" width="400" height="150" style="border:1px 
+solid #000;background:white; touch-action:none;"></canvas>
+
+<br><br>
+
+<button type="button" onclick="clearSignature()">Pulisci firma</button>
+<input type="hidden" id="signature-data" name="signature_data">
+
+<script>
+let canvas = document.getElementById('signature-pad');
+canvas.style.touchAction = "none";
+document.body.style.overscrollBehavior = "none";
+let drawing = false;
+let ctx = canvas.getContext('2d');
+
+canvas.addEventListener('mousedown', function(e) {
+  drawing = true;
+  ctx.beginPath();
+  ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener('mousemove', function(e) {
+  if (!drawing) return;
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+  saveSignature();
+});
+
+canvas.addEventListener('mouseup', function() {
+  drawing = false;
+});
+
+canvas.addEventListener('mouseleave', function() {
+  drawing = false;
+});
+
+function clearSignature() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  document.getElementById('signature-data').value = '';
+}
+
+function saveSignature() {
+  document.getElementById('signature-data').value = canvas.toDataURL();
+}
+
+<script>
+const canvas = document.getElementById('signature-pad');
+const ctx = canvas.getContext('2d');
+
+let drawing = false;
+
+canvas.addEventListener('touchstart', e => {
+drawing = true;
+});
+
+canvas.addEventListener('touchend', e => {
+drawing = false;
+});
+
+canvas.addEventListener('touchmove', e => {
+if (!drawing) return;
+
+const rect = canvas.getBoundingClientRect();
+const touch = e.touches[0];
+
+ctx.lineWidth = 2;
+ctx.lineCap = 'round';
+
+ctx.lineTo(
+touch.clientX - rect.left,
+touch.clientY - rect.top
+);
+
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(
+touch.clientX - rect.left,
+touch.clientY - rect.top
+);
+
+e.preventDefault();
+});
+
+function clearSignature(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+</script>
+{% endblock %}
