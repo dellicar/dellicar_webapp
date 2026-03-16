@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import sqlite3
 DATABASE_URL = os.getenv("DATABASE_URL")
-USE_POSTGRES = DATABASE_URL is not None
+USE_POSTGRES = False
 from contextlib import closing
 from datetime import date
 from pathlib import Path
