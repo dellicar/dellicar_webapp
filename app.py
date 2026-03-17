@@ -561,12 +561,7 @@ def seed_demo_route():
 @app.route("/scheda-lavori", methods=["GET", "POST"])
 @role_required("admin","segretaria")
 def scheda_lavori():
-    print("DEBUG /scheda-lavori metodo:", request.method)
-
-    if request.method == "POST":
-        print("DEBUG POST ricevuto")
-        print("DEBUG dati form:", dict(request.form))
-
+     if request.method == "POST":
         db = get_db()
         last = db.execute("SELECT id FROM work_orders ORDER BY id DESC LIMIT 1").fetchone()
 
@@ -593,8 +588,8 @@ def scheda_lavori():
                  numero_pratica,
                  request.form.get("client_name"),
                  request.form.get("plate"),
-                 request.form.get("make_model"),
-                 "",
+                 request.form.get("marca"),
+                 request.form.get("modello"),
                  request.form.get("colore"),
                  request.form.get("work_description"),
                  request.form.get("priority"),
@@ -603,8 +598,6 @@ def scheda_lavori():
         )
 
         db.commit()
-        print("DEBUG commit OK")
-
         return redirect(url_for("dashboard"))
 
     db = get_db()
