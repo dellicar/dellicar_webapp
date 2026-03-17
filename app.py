@@ -50,7 +50,9 @@ def get_db():
             conn = psycopg2.connect(DATABASE_URL)
             g.db = conn
         else:
-            g.db = sqlite3.connect(DB_PATH)
+            g.db = sqlite3.connect(DB_PATH, timeout=10)
+            g.db.execute("PRAGMA journal_mode=WAL;")
+            g.db.execute("PRAGMA synchronous=NORMAL;")
             g.db.row_factory = sqlite3.Row
     return g.db
 
