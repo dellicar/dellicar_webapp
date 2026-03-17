@@ -561,7 +561,7 @@ def seed_demo_route():
 @app.route("/scheda-lavori", methods=["GET", "POST"])
 @role_required("admin","segretaria")
 def scheda_lavori():
-     if request.method == "POST":
+    if request.method == "POST":
         db = get_db()
         last = db.execute("SELECT id FROM work_orders ORDER BY id DESC LIMIT 1").fetchone()
 
