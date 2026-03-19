@@ -272,7 +272,7 @@ def dashboard() -> str:
     """).fetchone()
 
     work_orders = db.execute("""
-    SELECT id, plate, notes, status_date, COALESCE(work_status,'Accettata') as work_status
+    SELECT id, plate, marca, modello, notes, status_date, COALESCE(work_status,'Accettata') as work_status
     FROM work_orders
     WHERE COALESCE(work_status,'Accettata') != 'Consegnata'
     ORDER BY id DESC

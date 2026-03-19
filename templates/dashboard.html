@@ -72,7 +72,14 @@ border-radius:10px; border:1px solid #444;">
 {% for w in work_orders %}
 {% if w.work_status != "Consegnata" %}
 <tr>
-<td>{{ w.plate }}</td>
+<td>
+  <div>{{ w.plate }}</div>
+  {% if w.marca or w.modello %}
+    <div style="font-size: 12px; color: #aaa;">
+      {{ w.marca or "" }} {{ w.modello or "" }}
+    </div>
+  {% endif %}
+</td>
 <td>
 {{ w.work_status }}
 
