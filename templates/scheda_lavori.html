@@ -257,7 +257,7 @@ body{ padding-top:52px !important; }
 {% endif %}
 
     <div class="page">
-        <form method="post" action="/scheda-lavori"novalidate>
+        <form method="POST" action="{% if scheda %}{{ url_for('apri_scheda_lavori', id=scheda['id']) }}{% else %}{{ url_for('scheda_lavori') }}{% endif %}" novalidate>
             <div class="header">
                 <div class="header-left">
                     <div class="logo-box">
@@ -284,57 +284,57 @@ body{ padding-top:52px !important; }
 
             <div class="row">
                 <label>Cliente:</label>
-                <input type="text" name="client_name">
+                <input type="text" name="client_name" value="{{ scheda['client_name'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>Telefono:</label>
-                <input type="text" name="phone">
+                <input type="text" name="phone" value="{{ scheda['phone'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
-                <label>Email:</label>
-                <input type="text" name="email">
+                <label>Marca:</label>
+                <input type="text" name="marca" value="{{ scheda['marca'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
-                <label>Marca / Modello:</label>
-                <input type="text" name="make_model">
+                <label>Modello:</label>
+                <input type="text" name="modello" value="{{ scheda['modello'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>Targa:</label>
-                <input type="text" name="plate">
+                <input type="text" name="plate" value="{{ scheda['plate'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>Telaio:</label>
-                <input type="text" name="vin">
+                <input type="text" name="vin" value="{{ scheda['vin'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>KM:</label>
-                <input type="text" name="km">
+                <input type="text" name="km" value="{{ scheda['km'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>Data ingresso:</label>
-                <input type="date" name="data_ingresso">
+                <input type="date" name="data_ingresso" value="{{ scheda['data_ingresso'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>Data consegna prevista:</label>
-                <input type="date" name="data_consegna">
+                <input type="date" name="data_consegna" value="{{ scheda['data_consegna'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>Assicurazione:</label>
-                <input type="text" name="assicurazione">
+                <input type="text" name="assicurazione" value="{{ scheda['assicurazione'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
                 <label>N° sinistro:</label>
-                <input type="text" name="numero_sinistro">
+                <input type="text" name="numero_sinistro" value="{{ scheda['numero_sinistro'] if scheda else '' }}" {% if view_mode %}readonly{% endif %}>
             </div>
 
             <div class="row">
@@ -347,17 +347,26 @@ body{ padding-top:52px !important; }
 
             <div class="row" style="align-items: start;">
                 <label>Descrizione lavori richiesti:</label>
-                <textarea name="work_description"></textarea>
+                <textarea name="work_description" {% if view_mode %}readonly{% endif %}>{{ scheda['work_description'] if scheda else '' }}</textarea>
             </div>
 
             <div class="row" style="align-items: start;">
                 <label>Note interne officina:</label>
-                <textarea name="note_interne"></textarea>
+                <textarea name="notes" {% if view_mode %}readonly{% endif %}>{{ scheda['notes'] if scheda else '' }}</textarea>
             </div>
-
+          
             <div class="actions">
                 <button type="submit" class="btn">Salva scheda</button>
                 <button type="button" class="btn btn-secondary" onclick="window.print()">Stampa</button>
+
+                {% if scheda %}
+                <a href="{{ url_for('elimina_scheda', id=scheda['id']) }}" 
+                   class="btn btn-secondary"
+                   onclick="return confirm('Sei sicuro di voler eliminare questa scheda?')">
+                   Elimina
+                </a>
+                {% endif %}
+
                 <a href="/" class="btn btn-secondary">Torna al gestionale</a>
             </div>
         </form>

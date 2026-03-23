@@ -646,10 +646,49 @@ def archivio_schede_lavori():
     return render_template("work_orders.html", work_orders=work_orders)
 
 
-@app.route("/schede-lavori/<int:id>")
+@app.route("/schede-lavori/<int:id>", methods=["GET", "POST"])
 @role_required("admin","segretaria","officina")
 def apri_scheda_lavori(id):
     db = get_db()
+
+    if request.method == "POST":
+        db.execute(
+            """
+            UPDATE work_orders
+            SET client_name = ?,
+                phone = ?,
+                plate = ?,
+                marca = ?,
+                modello = ?,
+                vin = ?,
+                km = ?,
+                data_ingresso = ?,
+                data_consegna = ?,
+                assicurazione = ?,
+                numero_sinistro = ?,
+                work_description = ?,
+                notes = ?
+            WHERE id = ?
+            """,
+            (
+                request.form.get("client_name"),
+                request.form.get("phone"),
+                request.form.get("plate"),
+                request.form.get("marca"),
+                request.form.get("modello"),
+                request.form.get("vin"),
+                request.form.get("km"),
+                request.form.get("data_ingresso"),
+                request.form.get("data_consegna"),
+                request.form.get("assicurazione"),
+                request.form.get("numero_sinistro"),
+                request.form.get("work_description"),
+                request.form.get("notes"),
+                id,
+            )
+        )
+        db.commit()
+        return redirect(url_for("apri_scheda_lavori", id=id))
 
     scheda = db.execute(
         """
@@ -660,37 +699,7 @@ def apri_scheda_lavori(id):
         (id,)
     ).fetchone()
 
-    return render_template("work_order_detail.html", w=scheda)
-
-@app.route("/schede-lavori/<int:id>/modifica", methods=["GET","POST"])
-def modifica_scheda(id):
-
-
-    db = get_db()
-
-    if request.method == "POST":
-        client_name = request.form.get("client_name")
-        plate = request.form.get("plate")
-        priority = request.form.get("priority")
-        work_description = request.form.get("work_description")
-        notes = request.form.get("notes")
-
-        db.execute("""
-        UPDATE work_orders
-        SET client_name=?, plate=?, priority=?, work_description=?, notes=?
-        WHERE id=?
-        """, (client_name, plate, priority, work_description, notes, id))
-
-        db.commit()
-
-        return redirect(url_for("apri_scheda_lavori", id=id))
-
-    scheda = db.execute(
-        "SELECT * FROM work_orders WHERE id = ?",
-        (id,)
-    ).fetchone()
-
-    return render_template("edit_work_order.html", w=scheda)
+    return render_template("scheda_lavori.html", scheda=scheda, view_mode=False)
 
 @app.route("/schede-lavori/<int:id>/elimina")
 @role_required("admin","segretaria")
